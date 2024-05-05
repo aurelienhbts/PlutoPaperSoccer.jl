@@ -1,7 +1,7 @@
 # PlutoPaperSoccer.jl
 First programming project at the Royal Military Academy (Belgium)
 
-For the final exam of the ES123 (Computer Algorithms and Programming Project) course taught by Dr. ir Ben Lauwens, each student had to choose a game from a provided list and create it using _Pluto.jl_
+For the final exam of the ES123 (Computer Algorithms and Programming Project) course taught by Ben Lauwens, each student had to choose a game from a provided list and create it using _Pluto.jl_
 
 
 There are two versions of the game: 
