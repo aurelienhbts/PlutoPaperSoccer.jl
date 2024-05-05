@@ -1,7 +1,8 @@
 # PlutoPaperSoccer.jl
 First programming project at the Royal Military Academy (Belgium)
 
-Each student had to select a game from a provided list and create it using _Pluto.jl_
+For the final exam of the ES123 course taught by Ben Lauwens, each student had to choose a game from a provided list and create it using _Pluto.jl_
+
 
 There are two versions of the game: 
 - The multiplayer version called "_PaperSoccer.jl_"
