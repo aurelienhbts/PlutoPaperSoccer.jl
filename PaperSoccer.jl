@@ -1,4 +1,4 @@
-### A Pluto.jl notebook ### 
+### A Pluto.jl notebook ###
 # v0.19.38
 
 using Markdown
@@ -46,17 +46,7 @@ md"""
 First programming project at the Royal Military Academy (Belgium)
 
 For the final exam of the ES123 (Computer Algorithms and Programming Project) course taught by Ben Lauwens, each student had to choose a game from a provided list and create it using Pluto.jl
-
-There are two versions of the game:
-
-- The multiplayer version called _PaperSoccer.jl_
-- The player vs. Bot version called _PaperSoccer-Bot.jl_
-
-Here, you are currently on the _PaperSoccer-Bot.jl_ version. You can find the other version on my GitHub page:
 """
-
-# ╔═╡ 9da1948e-b917-431b-b110-2c5afa59cc4a
-# https://github.com/aurelienhbts/PlutoPaperSoccer.jl
 
 # ╔═╡ 7bc85cb3-3f65-4da3-99f2-bf4e7db30924
 md"""
@@ -879,7 +869,6 @@ end
 # ╔═╡ Cell order:
 # ╟─ef51ba50-f663-11ee-0491-35648200404a
 # ╟─9675811b-e9c4-46c0-a8d3-307835670bbb
-# ╠═9da1948e-b917-431b-b110-2c5afa59cc4a
 # ╟─7bc85cb3-3f65-4da3-99f2-bf4e7db30924
 # ╟─f3795a18-c6bd-4d4d-9f2b-3f6bc7b8e85d
 # ╟─123699c9-f286-4cb7-aafe-2220d15dcf53
