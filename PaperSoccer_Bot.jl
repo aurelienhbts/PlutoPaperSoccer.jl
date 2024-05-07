@@ -1,4 +1,4 @@
-### A Pluto.jl notebook ### 
+### A Pluto.jl notebook ###
 # v0.19.38
 
 using Markdown
@@ -56,10 +56,10 @@ There are two versions of the game:
 - The multiplayer version called _PaperSoccer.jl_
 - The player vs. Bot version called _PaperSoccer-Bot.jl_
 
-Here, you are currently on the _PaperSoccer-Bot.jl_ version. You can find the other version on my GitHub page:
+Here, you are currently on the _PaperSoccer.jl_ version. You can find the other version on my GitHub page:
 """
 
-# ╔═╡ be86abca-c669-4cc5-846c-9f20cd9f34e6
+# ╔═╡ a3867900-d5e1-4b4d-85ce-20a157fab8b3
 # https://github.com/aurelienhbts/PlutoPaperSoccer.jl
 
 # ╔═╡ 7bc85cb3-3f65-4da3-99f2-bf4e7db30924
@@ -1112,10 +1112,10 @@ $(@bind select_direction Radio(select_interface(), default="Grid(0,0)"))
 
 # ╔═╡ e7ee9c6b-f54a-4ff7-ade4-83e3eec46c39
 function play()
-	if gamestate.color == COLOR_1 # The player's color
+	if gamestate.player == NAME_1 # The player's turn
 		direction = direction_selected(select_direction) # direction from arrows
 		
-	elseif gamestate.color == COLOR_2 # The bot's color
+	elseif gamestate.player == NAME_2 # The bot's turn
 		bot.attempts = 0
 		direction = run_bot() # direction of the bot
 	end
@@ -1147,7 +1147,7 @@ end
 # ╔═╡ Cell order:
 # ╟─ef51ba50-f663-11ee-0491-35648200404a
 # ╟─9675811b-e9c4-46c0-a8d3-307835670bbb
-# ╠═be86abca-c669-4cc5-846c-9f20cd9f34e6
+# ╠═a3867900-d5e1-4b4d-85ce-20a157fab8b3
 # ╟─7bc85cb3-3f65-4da3-99f2-bf4e7db30924
 # ╟─f3795a18-c6bd-4d4d-9f2b-3f6bc7b8e85d
 # ╟─123699c9-f286-4cb7-aafe-2220d15dcf53
@@ -1179,7 +1179,7 @@ end
 # ╟─4862da43-a86a-4c85-afd5-5c4058dbb887
 # ╟─0cd1f4ee-6e4e-481a-a364-8f92b3879c0c
 # ╟─9d6cdcee-dbe6-4c90-aaa1-7d0234aa20ce
-# ╟─e7ee9c6b-f54a-4ff7-ade4-83e3eec46c39
+# ╠═e7ee9c6b-f54a-4ff7-ade4-83e3eec46c39
 # ╟─72db2593-9a7c-47aa-9e82-a5da4780d75b
 # ╠═b71743da-e8b7-4abb-b04c-81b992278d97
 # ╟─feacf934-8bea-442c-9f32-43aa1455de62
