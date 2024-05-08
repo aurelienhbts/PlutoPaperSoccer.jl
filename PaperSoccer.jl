@@ -855,14 +855,24 @@ begin
 	go
 	
 	direction = direction_selected(select_direction)
-	
-	if direction == "#"
-		t = Turtle()
-		draw_start(t)
+	if gamestate.coords != (0, ROWS/2) && gamestate.coords != (0, -ROWS/2)
+		
+		if direction == "#"
+			t = Turtle()
+			draw_start(t)
+			draw_ball(t)
+			Drawing(t, SIZE*COLS, SIZE*ROWS)
+		else
+			play_game(direction)
+		end
+		
+	else
+		println("The game is already finished, please reset to play again")
+		t = Turtle() 
+		draw_start(t) # To draw the field
+		draw_datadraw(t) # To draw the line(s) on the Turtle
 		draw_ball(t)
 		Drawing(t, SIZE*COLS, SIZE*ROWS)
-	else
-		play_game(direction)
 	end
 end
 
