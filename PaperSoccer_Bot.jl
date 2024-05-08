@@ -487,7 +487,7 @@ begin
 		result
 	end
 	
-	md"""Code for the arrows"""
+	md"""Code for the arrows (modified version from PlutoUI)"""
 end
 
 # ╔═╡ 1c7a809f-62d6-488b-aded-5d8e34d74868
@@ -921,7 +921,7 @@ function directions()
 	
     directions = Int[] # Array where all the possible directions will go
 
-    for dir in [0, 1, 2, 3, 4, 5, 6, 7] # All directions (used and not used)
+    for dir in 0:7 # All directions (used and not used)
 		
         newcoords = new_coords(gamestate.coords, dir)
 
@@ -940,7 +940,7 @@ function nogo_conditions(direction)
 	
 	vectors = gamestate.vectors
 	test = 0
-	for dir in [0,1,2,3,4,5,6,7]
+	for dir in 0:7
 		new = new_coords(newcoords, dir) 
 		if vectors[newcoords, new] == 0 # Check if the ball can leave the position
 			test += 1
@@ -1045,9 +1045,9 @@ function go_direction()
 			end
 			if test > 1 # Check if the bot is not blocked after moving
 				
-				if coords == (-3, (ROWS-2)/2-2) && newcoords == (-2, (ROWS-2)/2-1)
+				if coords == (-3, (ROWS-2)/2-1) && newcoords == (-2, (ROWS-2)/2)
 					return nothing # The bot shall not make this move
-				elseif coords == (3, (ROWS-2)/2-2) && newcoords == (2, (ROWS-2)/2-1)
+				elseif coords == (3, (ROWS-2)/2-1) && newcoords == (2, (ROWS-2)/2)
 					return nothing  # The bot shall not make this move
 				else
 					return direction # Return direction if the bot can replay
@@ -1055,6 +1055,72 @@ function go_direction()
 			end
 		end
 	end
+end
+
+# ╔═╡ efb3d473-338c-4fee-a179-9b6c04cf7798
+function check_blocked(direction)
+	
+	# We already know that the bot can go in that direction without being blocked after its move. Now, let's go a bit further.
+
+	new1 = new_coords(gamestate.coords, direction)
+
+	if new1 == (0, -ROWS/2)
+		return true
+	end
+	
+	dirs1 = Int[]
+	for dir1 in 0:7
+		new2 = new_coords(new1, dir1)
+		if gamestate.vectors[new1, new2] == 0 && gamestate.grid[new2] == 1
+			# Add the possible directions of the bot after its move if it can replay
+			push!(dirs1, dir1)
+		end
+	end
+
+	dirs2 = Int[]
+	test2 = 0
+	for dir1 in dirs1
+		new2 = new_coords(new1, dir1)
+		for dir2 in 0:7
+			new3 = new_coords(new2, dir2)
+			if gamestate.vectors[new2, new3] == 0
+				test2 += 1
+				if gamestate.grid[new3] == 0
+					push!(dirs2, dir2)
+				end
+			end
+		end
+	end
+	
+	if length(dirs1) == 2 # Forced path
+		if test2 < 2
+			return false # Return false if forced moves → the bot is blocked
+		end
+	end
+
+	# 'else' could be useful here ??
+	
+	test3 = 0
+	for dir1 in dirs1
+		new2 = new_coords(new1, dir1)
+		for dir2 in dirs2
+			new3 = new_coords(new2, dir2)
+			for dir3 in 0:7
+				new4 = new_coords(new3, dir3)
+				if gamestate.vectors[new3, new4] == 0
+					test3 += 1
+				end
+			end
+		end
+	end
+
+	if length(dirs2) == 2 # Forced path
+		if test3 < 2
+			return false # Return false if forced moves → the bot is blocked
+		end
+	end
+
+	return true
 end
 
 # ╔═╡ 73e717b9-bb76-463b-8b14-f96d8a189ffc
@@ -1085,7 +1151,9 @@ function run_bot()
 	direction = go_goal(direction) # Change the direction if the bot can score
 
 	if nogo_conditions(direction) == true
-		return direction # Return if conditions are okay
+		if check_blocked(direction)
+			return direction # Return if conditions are ok + bot not blocked (3 moves)
+		end
 	else
 			
 		if length(dirs) == 2 # If 2 dirs && 1 is nogo → return the other
@@ -1095,7 +1163,7 @@ function run_bot()
 				return dirs[1]
 			end
 		else
-		if bot.attempts > 50
+			if bot.attempts > 50
 				return direction
 			else
 				bot.attempts += 1
@@ -1112,21 +1180,25 @@ $(@bind select_direction Radio(select_interface(), default="Grid(0,0)"))
 
 # ╔═╡ e7ee9c6b-f54a-4ff7-ade4-83e3eec46c39
 function play()
-	if gamestate.player == NAME_1 # The player's turn
-		direction = direction_selected(select_direction) # direction from arrows
+
+
+	if gamestate.coords != (0, ROWS/2) && gamestate.coords != (0, -ROWS/2)
+		if gamestate.player == NAME_1 # The player's turn
+			direction = direction_selected(select_direction) # direction from arrows
+			
+		elseif gamestate.player == NAME_2 # The bot's turn
+			bot.attempts = 0
+			direction = run_bot() # direction of the bot
+		end
 		
-	elseif gamestate.player == NAME_2 # The bot's turn
-		bot.attempts = 0
-		direction = run_bot() # direction of the bot
-	end
-	
-	if direction == "#" # At the beginning of the game
-		t = Turtle() 
-		draw_start(t) # Draw the field (grid + borders)
-		draw_ball(t) # Draw the ball in the center
-		Drawing(t, SIZE*COLS, SIZE*ROWS) 
-	else
-		play_game(direction) # Move the ball and update gamestate
+		if direction == "#" # At the beginning of the game
+			t = Turtle() 
+			draw_start(t) # Draw the field (grid + borders)
+			draw_ball(t) # Draw the ball in the center
+			Drawing(t, SIZE*COLS, SIZE*ROWS) 
+		else
+			play_game(direction) # Move the ball and update gamestate
+		end
 	end
 end
 
@@ -1179,7 +1251,7 @@ end
 # ╟─4862da43-a86a-4c85-afd5-5c4058dbb887
 # ╟─0cd1f4ee-6e4e-481a-a364-8f92b3879c0c
 # ╟─9d6cdcee-dbe6-4c90-aaa1-7d0234aa20ce
-# ╠═e7ee9c6b-f54a-4ff7-ade4-83e3eec46c39
+# ╟─e7ee9c6b-f54a-4ff7-ade4-83e3eec46c39
 # ╟─72db2593-9a7c-47aa-9e82-a5da4780d75b
 # ╠═b71743da-e8b7-4abb-b04c-81b992278d97
 # ╟─feacf934-8bea-442c-9f32-43aa1455de62
@@ -1188,6 +1260,7 @@ end
 # ╟─88224ef4-8637-4102-b071-45a43c352073
 # ╟─3a28ab9d-2751-41ae-b07c-22bd339b73b1
 # ╟─73e717b9-bb76-463b-8b14-f96d8a189ffc
+# ╟─efb3d473-338c-4fee-a179-9b6c04cf7798
 # ╟─7042cbe7-1116-4e76-a230-78ccbeb6bfe8
 # ╟─b18bbeab-0521-4cbe-9788-616dd5df2c64
 # ╠═20bf3a92-2e94-467c-848f-965d77ed1596
