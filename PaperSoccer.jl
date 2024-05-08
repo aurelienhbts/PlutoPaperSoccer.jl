@@ -410,7 +410,7 @@ begin
 		result
 	end
 	
-	md"""Code for the arrows"""
+	md"""Code for the arrows (modified version from PlutoUI)"""
 end
 
 # ╔═╡ 7e0b1c03-929a-437c-ad21-8e38cf3e47cd
