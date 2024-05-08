@@ -1199,6 +1199,13 @@ function play()
 		else
 			play_game(direction) # Move the ball and update gamestate
 		end
+	else
+		println("The game is already finished, please reset to play again")
+		t = Turtle() 
+		draw_start(t) # To draw the field
+		draw_datadraw(t) # To draw the line(s) on the Turtle
+		draw_ball(t)
+		Drawing(t, SIZE*COLS, SIZE*ROWS)
 	end
 end
 
