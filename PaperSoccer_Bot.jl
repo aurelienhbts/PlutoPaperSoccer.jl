@@ -37,9 +37,9 @@ begin
 	using NativeSVG 						# For the Turtle (drawing of the field)
 	using PlutoUI 							# For the arrows and the settings
 	
-	using HypertextLiteral 					# For the HTML/Javascript code from dVdV
-	using AbstractPlutoDingetjes.Bonds 		# For the HTML/Javascript code from dVdV
-	using Random							# For the HTML/Javascript code from dVdV
+	using HypertextLiteral 					# For the HTML/Javascript code
+	using AbstractPlutoDingetjes.Bonds 		# For the HTML/Javascript code
+	using Random							# For the HTML/Javascript code
 
 	using Distributions 					# For the bot
 end
@@ -1224,7 +1224,7 @@ begin
 end
 
 # ╔═╡ Cell order:
-# ╟─ef51ba50-f663-11ee-0491-35648200404a
+# ╠═ef51ba50-f663-11ee-0491-35648200404a
 # ╟─9675811b-e9c4-46c0-a8d3-307835670bbb
 # ╠═a3867900-d5e1-4b4d-85ce-20a157fab8b3
 # ╟─7bc85cb3-3f65-4da3-99f2-bf4e7db30924
