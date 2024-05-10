@@ -799,7 +799,7 @@ $(@bind color_2 Select(["blue", "red", "green", "violet", "orange"], default="re
 """
 
 # ╔═╡ 79c33fc3-0892-4d42-a4eb-7a71a3b25daa
-const COLOR_2 = Symbol(color_2) # To set the color and String to Symbol
+const COLOR_2 = Symbol(color_2) # To set the color and String to Symbol 
 
 # ╔═╡ c047cb7c-7f9d-4b4f-a906-3fd1e95b0c56
 md"""
