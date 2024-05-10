@@ -698,7 +698,7 @@ end
 
 # ╔═╡ fc73742b-c6b6-4457-b0a0-8709ab5bad54
 md"""
-Choose the **name of player A**:
+Choose the **name of player 1**:
 $(@bind name_player_1 TextField(default="Player 1"))
 """
 
@@ -716,7 +716,7 @@ const COLOR_1 = Symbol(color_1) # To set the color and String to Symbol
 
 # ╔═╡ 6a6d78b3-686a-4a77-a52a-3f9ecf639f46
 md"""
-Choose the **name of player B**:
+Choose the **name of player 2**:
 $(@bind name_player_2 TextField(default="Player 2"))
 """
 
