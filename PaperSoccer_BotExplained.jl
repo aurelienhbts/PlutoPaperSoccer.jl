@@ -31,7 +31,9 @@ There are two versions of the game:
 - The multiplayer version called _PaperSoccer.jl_
 - The player vs. Bot version called _PaperSoccer-Bot.jl_
 
-Here, you are currently on the _PaperSoccer-Bot.jl_ version. You can find the other version on my GitHub page:
+And a notebook explaining how the bot is working called _PaperSoccer-BotExplained.jl_
+
+Here, you are currently on the _PaperSoccer-BotExplained.jl_ version. You can find the other version on my GitHub page:
 """
 
 # ╔═╡ 9eefbc22-9c41-46c9-bccd-c1e3a336322d
