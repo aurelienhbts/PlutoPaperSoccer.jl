@@ -233,7 +233,7 @@ md"""
 
 # ╔═╡ 2ce24faf-89c4-404e-a2fe-470a76f86bb2
 md"""
-## HTML → Boutons
+## HTML → Buttons
 Thanks to _de Villenfagne de Vogelsanck_ who helped a bit with this part.
 """
 
