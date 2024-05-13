@@ -223,7 +223,7 @@ md"""
 # ╔═╡ b71743da-e8b7-4abb-b04c-81b992278d97
 begin
 	mutable struct Bot
-		attempts :: Int # To avoid StackOverFlow errors
+		attempts :: Int # To avoid StackOverFlow errors (set a maximum per turn)
 		randomness :: Float64 # The temperature for the bot moves
 	end
 		
@@ -310,7 +310,7 @@ md"""
 
 # ╔═╡ 2ce24faf-89c4-404e-a2fe-470a76f86bb2
 md"""
-## HTML → Boutons
+## HTML → Buttons
 Thanks to _de Villenfagne de Vogelsanck_ who helped a bit with this part.
 """
 
@@ -933,6 +933,38 @@ function directions()
     return directions
 end
 
+# ╔═╡ 3a28ab9d-2751-41ae-b07c-22bd339b73b1
+function go_direction()
+	
+	coords = gamestate.coords # Initial position of the ball
+	test = 0
+	
+	for direction in [4,3,5,2,6,1,7,0] # The order of this array matter
+		
+		newcoords = new_coords(coords, direction)
+		
+		if gamestate.grid[newcoords] == 1 && gamestate.vectors[coords, newcoords] == 0
+			
+			for dir in 0:7
+				new = new_coords(newcoords, dir)
+				if gamestate.vectors[newcoords, new] == 0 # Check the next directions
+					test += 1
+				end
+			end
+			if test > 1 # Check if the bot is not blocked after moving
+				
+				if coords == (-3, (ROWS-2)/2-1) && newcoords == (-2, (ROWS-2)/2)
+					return nothing # The bot shall not make this move
+				elseif coords == (3, (ROWS-2)/2-1) && newcoords == (2, (ROWS-2)/2)
+					return nothing  # The bot shall not make this move
+				else
+					return direction # Return direction if the bot can replay
+				end
+			end
+		end
+	end
+end
+
 # ╔═╡ d442eb37-b61c-4a8c-9a4f-aaa767be53f3
 function nogo_conditions(direction)
 	
@@ -956,7 +988,6 @@ function nogo_conditions(direction)
 		# The 4 corners
 		# The positions in front of the goal if the bot cannot replay
 		# The 2 positions creating StackOverFlow errors 
-			# → there are 4 possible directions but they are all forbidden
 	
 	nogo1 = [(-2, ((ROWS-2)/2)-1),(-1,((ROWS-2)/2)-1),(0,(ROWS-2)/2),(0,((ROWS-2)/2)-1),(1,((ROWS-2)/2)-1), (2,((ROWS-2)/2)-1)] 
 	for pos1 in nogo1
@@ -1023,38 +1054,6 @@ function go_goal(dir)
 	end
 		
 	return dir # If nothing is returned, the initial direction is returned 
-end
-
-# ╔═╡ 3a28ab9d-2751-41ae-b07c-22bd339b73b1
-function go_direction()
-	
-	coords = gamestate.coords # Initial position of the ball
-	test = 0
-	
-	for direction in [4,3,5,2,6,1,7,0] # The order of this array matter
-		
-		newcoords = new_coords(coords, direction)
-		
-		if gamestate.grid[newcoords] == 1 && gamestate.vectors[coords, newcoords] == 0
-			
-			for dir in [0,1,2,3,4,5,6,7]
-				new = new_coords(newcoords, dir)
-				if gamestate.vectors[newcoords, new] == 0 # Check the next directions
-					test += 1
-				end
-			end
-			if test > 1 # Check if the bot is not blocked after moving
-				
-				if coords == (-3, (ROWS-2)/2-1) && newcoords == (-2, (ROWS-2)/2)
-					return nothing # The bot shall not make this move
-				elseif coords == (3, (ROWS-2)/2-1) && newcoords == (2, (ROWS-2)/2)
-					return nothing  # The bot shall not make this move
-				else
-					return direction # Return direction if the bot can replay
-				end
-			end
-		end
-	end
 end
 
 # ╔═╡ efb3d473-338c-4fee-a179-9b6c04cf7798
@@ -1200,7 +1199,7 @@ function play()
 			play_game(direction) # Move the ball and update gamestate
 		end
 	else
-		println("The game is already finished, please reset to play again")
+		println("The game is already finished, please reset to play again.")
 		t = Turtle() 
 		draw_start(t) # To draw the field
 		draw_datadraw(t) # To draw the line(s) on the Turtle
@@ -1262,12 +1261,12 @@ end
 # ╟─72db2593-9a7c-47aa-9e82-a5da4780d75b
 # ╠═b71743da-e8b7-4abb-b04c-81b992278d97
 # ╟─feacf934-8bea-442c-9f32-43aa1455de62
-# ╟─3a0c3943-22c4-405e-a9c4-9c9c9ccace78
+# ╟─3a28ab9d-2751-41ae-b07c-22bd339b73b1
 # ╟─d442eb37-b61c-4a8c-9a4f-aaa767be53f3
 # ╟─88224ef4-8637-4102-b071-45a43c352073
-# ╟─3a28ab9d-2751-41ae-b07c-22bd339b73b1
-# ╟─73e717b9-bb76-463b-8b14-f96d8a189ffc
+# ╟─3a0c3943-22c4-405e-a9c4-9c9c9ccace78
 # ╟─efb3d473-338c-4fee-a179-9b6c04cf7798
+# ╟─73e717b9-bb76-463b-8b14-f96d8a189ffc
 # ╟─7042cbe7-1116-4e76-a230-78ccbeb6bfe8
 # ╟─b18bbeab-0521-4cbe-9788-616dd5df2c64
 # ╠═20bf3a92-2e94-467c-848f-965d77ed1596
