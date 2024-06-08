@@ -103,6 +103,11 @@ md"""
 """
 
 # ╔═╡ aeca3167-0647-44cd-89a3-66ee1cc86ffd
+"""
+new_coords(coords, direction)
+
+This function takes a direction and a pair of coordinates (Tuple) as input and returns a new pair of coordinates in function of the selected direction.
+"""
 function new_coords(coords, direction)
 		(x, y) = coords # Initial position of the ball
 		if direction == 0
@@ -131,6 +136,12 @@ md"""
 """
 
 # ╔═╡ cecba161-e3a6-42c8-928c-a787e54ae085
+"""
+update_vectors(vectors, coords, newcoords)
+
+This function takes a dictionary (vectors) and two pairs of coordinates (initial + final) as input and returns an updated version of the dictionary.
+It changes the state of the choosen vector (coords → newcoords) to 1.
+"""
 function update_vectors(vectors, coords, newcoords)
 	
 	vector = (coords, newcoords)
@@ -147,25 +158,30 @@ function update_vectors(vectors, coords, newcoords)
 end
 
 # ╔═╡ 2176ab9f-3185-438b-bc81-784d856eac0b
-function direction_selected(select_direction)
+"""
+direction_selected(select)
+
+This function 'translate' the output of the buttons (arrows) in integers from 0 to 7.
+"""
+function direction_selected(select)
 	
-	if select_direction == "Grid(0,0)"
+	if select == "Grid(0,0)"
 		selected = "#"
-	elseif select_direction == "Grid(0,1)"
+	elseif select == "Grid(0,1)"
 		selected = 0
-	elseif select_direction == "Grid(1,1)"
+	elseif select == "Grid(1,1)"
 		selected = 1
-	elseif select_direction == "Grid(1,0)"
+	elseif select == "Grid(1,0)"
 		selected = 2
-	elseif select_direction == "Grid(1,-1)"
+	elseif select == "Grid(1,-1)"
 		selected = 3
-	elseif select_direction == "Grid(0,-1)"
+	elseif select == "Grid(0,-1)"
 		selected = 4
-	elseif select_direction == "Grid(-1,-1)"
+	elseif select == "Grid(-1,-1)"
 		selected = 5
-	elseif select_direction == "Grid(-1,0)"
+	elseif select == "Grid(-1,0)"
 		selected = 6
-	elseif select_direction == "Grid(-1,1)"
+	elseif select == "Grid(-1,1)"
 		selected = 7
 	end
 	
@@ -178,6 +194,11 @@ md"""
 """
 
 # ╔═╡ 8b3e1b1d-da4f-463d-8827-21ee87b6c04b
+"""
+initialize_datadraw()
+
+This function does not have any input and returns an empty dictionnary to store the color and direction of each line drawn.
+"""
 function initialize_datadraw()
 	data = Dict{Int, Tuple{Symbol, Int}}() 
 	# To store the color and direction of each line drawn
@@ -185,6 +206,11 @@ function initialize_datadraw()
 end
 
 # ╔═╡ f351781f-d303-437d-86f7-e1e5b4830963
+"""
+update_datadraw(data, color, direction)
+
+This function takes a dictionary (data), a color (Symbol) and a direction (Int64) as input, store the color and the direction and returns the updated dictionary.
+"""
 function update_datadraw(data, color, direction)
 	lengthdata = length(data) + 1
 	data[lengthdata] = (color, direction) # To add a set of values in the datadraw
@@ -249,12 +275,17 @@ struct Grid
 end
 
 # ╔═╡ d933e888-3cc5-4282-8b7e-21be82b5c3f9
+"""
+select_interface()
+
+This function create an array with the 'names' of the arrows of the user-interface.
+"""
 function select_interface()
 	
 	grids=[]
 	
 	for grid in [Grid(a,b) for a in -1:1, b in reverse(collect(-1:1))]
-		push!(grids,grid)
+		push!(grids, grid)
 	end
 
 	output = String[]
@@ -272,6 +303,11 @@ md"""
 """
 
 # ╔═╡ 03692153-4523-4ac1-b2d4-4b0f226c46e6
+"""
+Angle(grid1, grid2)
+
+This function calculate the angle for the orientation of the arrows.
+"""
 function Angle(grid1,grid2) # To get the right orientation for the arrows
 
 	dx = grid2.col - grid1.col
@@ -283,7 +319,12 @@ function Angle(grid1,grid2) # To get the right orientation for the arrows
 end
 
 # ╔═╡ f16837d7-5965-4964-b11b-c44924de18af
-function draw_arrows(grid,action)
+"""
+draw_arrows(grid, action)
+
+This function draws the arrows and a ball in the middle.
+"""
+function draw_arrows(grid, action)
 	
 	if action == "begin" && grid.col == -1
 		return @htl("""<div>""")
@@ -423,6 +464,12 @@ $(@bind choose_rows NumberField(8:2:20, default=10))
 const ROWS = choose_rows + 2 # Number of rows (+2)
 
 # ╔═╡ c4c55706-9e9c-451f-8c60-aac569f9b8ff
+"""
+update_grid(grid, coords)
+
+This function takes a dictionary (grid) and a pair of coordinates as input and returns an updated version of the dictionary.
+It changes the state of the choosen pair of coordinates to 1 if it is not already to 1.
+"""
 function update_grid(grid, coords)
 			if haskey(grid, coords) # To check if the coordinate is in the grid
 				if grid[coords] == 0 # Check the state of the position
@@ -448,6 +495,14 @@ $(@bind choose_cols NumberField(6:2:18, default=8))
 const COLS = choose_cols + 2 # Number of columns (+2)
 
 # ╔═╡ 9c63e661-e583-44c8-ae9d-28a5df3eed45
+"""
+initialize_grid()
+
+This function does not have any input and returns a dictionnary with a system of coordinates according to the grid on the field. 
+Each coordinate is associated with its state:
+- 0 if the position has never been used;
+- 1 if the position has already been used (+ for the outlines).
+"""
 function initialize_grid()
 	grid = Dict{Tuple{Int, Int}, Int}() # Create a Dict with coord => state
 	for row in -(ROWS/2):(ROWS/2) # Create the y's
@@ -468,6 +523,15 @@ function initialize_grid()
 end
 
 # ╔═╡ 05342582-120d-4deb-b11c-558eb5372929
+"""
+initialize_vectors()
+
+This function does not have any input and returns a dictionnary with all the possible unit vectors of the system of coordinates created by the **initialize_grid** function.
+Each vector is associated with its state:
+- 0 if the vector has never been used;
+- 1 if the position has already been used;
+- 2 for the outward pointing vectors (+ for the outlines).
+"""
 function initialize_vectors()
 	
 	vectors = Dict{Tuple{Tuple{Int, Int}, Tuple{Int, Int}}, Int}() # Create dict
@@ -565,6 +629,11 @@ $(@bind choose_size NumberField(20:100, default=80))
 const SIZE = choose_size # Size of the squares
 
 # ╔═╡ 123699c9-f286-4cb7-aafe-2220d15dcf53
+"""
+draw_grid(t) 
+
+The function takes a turtle ('t') as input and draws squares in lightgrey in function of three choosen constants (**COLS**, **ROWS** & **SIZE**).
+"""
 function draw_grid(t)
 		# Go to the S-W of the window
 		penup(t)
@@ -602,6 +671,11 @@ function draw_grid(t)
 	end
 
 # ╔═╡ 2644f9f1-d1f1-4229-9f98-e8d1388297e1
+"""
+draw_field(t)
+
+The function takes a turtle ('t') as input and draws the outline of the field in black in function of three choosen constants (**COLS**, **ROWS** & **SIZE**).
+"""
 function draw_field(t)
 		# Go to the right place to draw
 		penup(t)
@@ -637,6 +711,11 @@ function draw_field(t)
 	end
 
 # ╔═╡ 74b99252-d3bf-4a5d-874d-80a97e5ed93a
+"""
+draw_start('t')
+
+The function takes a turtle ('t') as input and draws the background of the field (lightgrey squares and black outline) using the **draw_grid** and **draw_squares** functions.
+"""
 function draw_start(t)
 	draw_grid(t) # Draw the background grid
 	draw_field(t) # Draw the limits of the field
@@ -652,6 +731,11 @@ function draw_start(t)
 end
 
 # ╔═╡ 38556268-1dcd-4314-8273-de78d9cad8ef
+"""
+add_line(t, color, direction)
+
+The function takes a turtle ('t'), a color (Symbol) and a direction (Int64) as input and draws a colored line in the selected direction. 
+"""
 function add_line(t, color, direction) # To move the ball (graphically)
 	pencolor(t, color) # Change the color of the pen (color::Symbol)		
 	turn(t, direction*45)
@@ -673,6 +757,11 @@ $(@bind choose_radius NumberField(1:20, default=5))
 const RADIUS_BALL = choose_radius # Radius of the ball
 
 # ╔═╡ 29a527be-8b10-4b0f-abe7-e9fbaa7c59fe
+"""
+draw_ball(t)
+
+The function takes a turtle ('t') as input and draws a ball in function of the constant **RADIUS_BALL**.
+"""
 function draw_ball(t)
 	
 	# Set the position of the Turtle to create the circle
@@ -747,6 +836,11 @@ begin
 end
 
 # ╔═╡ 71c7233f-b2f3-459b-b0fa-787c79bc534a
+"""
+loosing_conditions()
+
+This function prints "_The game is over, you cannot move._" if the player is blocked.
+"""
 function loosing_conditions()
 	
 	test = 0
@@ -767,6 +861,11 @@ function loosing_conditions()
 end
 
 # ╔═╡ 7f92691e-87b9-46cb-9d26-b9c2edf557ad
+"""
+draw_datadraw(t)
+
+This function draws all the lines stored in the datadraw dictionary using the **add_line** function.
+"""
 function draw_datadraw(t)
 	for key in 1:length(gamestate.datadraw) # To get the right order
 		eachdata = gamestate.datadraw[key] # To get the color and dir of each line
@@ -779,6 +878,11 @@ function draw_datadraw(t)
 end
 
 # ╔═╡ dd4c1194-bec0-4788-aa17-f187da35899d
+"""
+change-color-name()
+
+This function update the 'player' and 'color' fields in the mutable structure **GameState**.
+"""
 function change_color_name()
 	if gamestate.player == NAME_1
 		gamestate.player = NAME_2 # Change from 1 to 2
@@ -791,6 +895,11 @@ function change_color_name()
 end
 
 # ╔═╡ 9d6cdcee-dbe6-4c90-aaa1-7d0234aa20ce
+"""
+update_game(direction)
+
+This function takes a direction (Int64) as input and update the 'coords', 'grid' and 'vectors' fields of the mutable structure **GameState** only if the vector according to the choosen direction has never been used.
+"""
 function update_game(direction)
 
 	coords = gamestate.coords # To avoid problems updating the coordinates
@@ -810,6 +919,11 @@ function update_game(direction)
 end
 
 # ╔═╡ 0cd1f4ee-6e4e-481a-a364-8f92b3879c0c
+"""
+play_game(direction)
+
+This function takes a direction (Int64) as input and combine a few functions to make the game playable.
+"""
 function play_game(direction)
 	
 	coords = gamestate.coords # Initial position of the ball

@@ -161,7 +161,11 @@ end
 
 
 # ╔═╡ c65c71cb-7fca-488f-b03e-0cf13b309ec3
-begin
+"""
+create_rectangles(NameFunction, texts)
+
+With this function, it is easy to create diagrams.
+"""
 function create_rectangles(NameFunction, texts) # Could use texts...
 
 	n = Int(length(texts)/2)
@@ -208,13 +212,13 @@ function create_rectangles(NameFunction, texts) # Could use texts...
 	end
 end
 
-html"""
-	The function for the diagrams:
-"""
-end
-
 # ╔═╡ 188fd14d-579a-4c8c-9634-d50f239f125d
 begin
+
+	# 0 : the outline of the rectangle is grey
+	# 1 : the outline of the rectangle is red (reference to another diagram)
+	# 2 : the outline of the rectangle is green (when the function returns something)
+	
 	text_runbot = [
 		0, "Get all the possible directions ",
 		2, "If only one option → return 'direction' ",
@@ -352,7 +356,7 @@ md"""
 # ╟─fb23d190-019f-458a-998e-16894d54890b
 # ╟─e5841d0b-99ff-45d6-98f7-40c8f7f0df5e
 # ╟─c65c71cb-7fca-488f-b03e-0cf13b309ec3
-# ╟─188fd14d-579a-4c8c-9634-d50f239f125d
+# ╠═188fd14d-579a-4c8c-9634-d50f239f125d
 # ╟─18356b18-cfc1-415b-87a9-3ae634e6eda4
 # ╟─23f7495a-2f5e-4d31-ad6e-1031ff07b869
 # ╟─8f5e5f0a-7267-41d7-8dab-8c9c76a1076f
